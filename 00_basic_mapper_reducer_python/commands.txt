@@ -1,0 +1,11 @@
+# To send the first 10 lines to mapper, emulate the shuffle and sort phase and send it to reducer.
+head purchases.txt | ./mapper.py | sort -k1,1 | ./reducer.py 
+
+# The same, but with the complete file.
+cat purchases.txt | ./mapper.py | sort -k1,1 | ./reducer.py 
+
+## misc
+
+tar -zcvf tar-archive-name.tar.gz source-folder-name
+tar -zxvf tar-archive-name.tar.gz
+
