@@ -27,25 +27,39 @@ for line in sys.stdin:
     thisStoreKey, thisItemKey, thisSale = data_mapped
 
     if oldStoreKey and oldStoreKey != thisStoreKey:
-       print oldStoreKey, "\t", itemMaxSalesPerStore, "\t", salesMaxAtMoment
-       oldItemKey = thisItemKey;
-       salesTotalPerItem = 0
+	print oldStoreKey, "\t", itemMaxSalesPerStore, "\t", salesMaxAtMoment
+        oldStoreKey = thisStoreKey
+        oldItemKey = None
+        salesTotalPerItem = float(thisSale)
+        salesTotalPerStore = salesTotalPerItem
+        salesMaxAtMoment = salesTotalPerItem
+        itemMaxSalesPerStore = thisItemKey
 
-    if oldItemKey and oldItemKey != thisItemKey:
-      if salesMaxAtMoment <= salesTotalPerItem:
-       saleMaxAtMoment = salesTotalPerItem
-       itemMaxSalesPerStore = thisItemKey
-      #print oldStoreKey, "\t", oldItemKey, "\t", salesTotalPerItem
-      oldItemKey = thisItemKey;
-      salesTotalPerItem = 0
+    if oldStoreKey and oldItemKey and oldItemKey != thisItemKey:
+    	if salesMaxAtMoment <= salesTotalPerItem:
+		salesMaxAtMoment = salesTotalPerItem
+		itemMaxSalesPerStore = thisItemKey
+		#print oldStoreKey, "\t", oldItemKey, "\t", salesTotalPerItem
+	oldItemKey = thisItemKey;
+	salesTotalPerItem = float(thisSale)
+        salesTotalPerStore = salesTotalPerItem
 
-    oldStoreKey = thisStoreKey
-    oldItemKey = thisItemKey
-    salesTotalPerItem += float(thisSale)
-    salesTotalPerStore += float(thisSale)
-    #if salesMaxAtMoment <= salesTotalPerItem:
-    #   saleMaxAtMoment = salesTotalPerItem
-    #   itemMaxSalesPerStore = thisItemKey
+    elif oldStoreKey and oldItemKey and oldItemKey == thisItemKey:
+	salesTotalPerItem += float(thisSale)
+	#salesTotalPerStore += salesTotalPerItem
+	salesMaxAtMoment = salesTotalPerItem
+        itemMaxSalesPerStore = thisItemKey 
+
+
+
+    if oldStoreKey == None and oldItemKey == None:
+    	oldStoreKey = thisStoreKey
+        oldItemKey = thisItemKey
+	salesTotalPerItem = float(thisSale)
+	salesTotalPerStore = salesTotalPerItem
+	#if salesMaxAtMoment <= salesTotalPerItem:
+	salesMaxAtMoment = salesTotalPerItem
+	itemMaxSalesPerStore = thisItemKey
 
 
 if oldStoreKey != None and oldItemKey != None:
