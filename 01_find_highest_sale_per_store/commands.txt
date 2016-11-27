@@ -4,6 +4,14 @@ head purchases.txt | ./mapper.py | sort -k1,1 | ./reducer.py
 # The same, but with the complete file.
 cat purchases.txt | ./mapper.py | sort -k1,1 | ./reducer.py 
 
+# To execute a python map reduce program
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.8.0.jar 
+ |  -mapper "python /home/cloudera/ZZ_Trabajo/repos/MOOC_udacity_first_steps_hadoop/01_find_highest_sale_per_store/mapper.py" 
+ |  -reducer "python /home/cloudera/ZZ_Trabajo/repos/MOOC_udacity_first_steps_hadoop/01_find_highest_sale_per_store/reducer.py" 
+ |  -input "hadoopbasics/purchases.txt" 
+ | 
+ |  -output "hadoopbasics/output"
+
 ## misc
 
 tar -zcvf tar-archive-name.tar.gz source-folder-name
