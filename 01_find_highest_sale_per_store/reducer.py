@@ -2,14 +2,8 @@
 
 import sys
 
-
-oldStoreKey = None
-oldItemKey = None
-salesTotalPerStore = 0
-itemMaxSalesPerStore = None
-salesMaxAtMoment = 0
-salesTotalPerItem = 0
-
+salesTotal = 0
+oldKey = None
 
 # Loop around the data
 # It will be in the format key\tval
@@ -24,44 +18,16 @@ for line in sys.stdin:
         # Something has gone wrong. Skip this line.
         continue
 
-    thisStoreKey, thisItemKey, thisSale = data_mapped
+    thisKey, other, thisSale = data_mapped
 
-    if oldStoreKey and oldStoreKey != thisStoreKey:
-	print oldStoreKey, "\t", itemMaxSalesPerStore, "\t", salesMaxAtMoment
-        oldStoreKey = thisStoreKey
-        oldItemKey = None
-        salesTotalPerItem = float(thisSale)
-        salesTotalPerStore = salesTotalPerItem
-        salesMaxAtMoment = salesTotalPerItem
-        itemMaxSalesPerStore = thisItemKey
+    if oldKey and oldKey != thisKey:
+        print oldKey, "\t", salesTotal
+        oldKey = thisKey;
+        salesTotal = 0
 
-    if oldStoreKey and oldItemKey and oldItemKey != thisItemKey:
-    	if salesMaxAtMoment <= salesTotalPerItem:
-		salesMaxAtMoment = salesTotalPerItem
-		itemMaxSalesPerStore = thisItemKey
-		#print oldStoreKey, "\t", oldItemKey, "\t", salesTotalPerItem
-	oldItemKey = thisItemKey;
-	salesTotalPerItem = float(thisSale)
-        salesTotalPerStore = salesTotalPerItem
+    oldKey = thisKey
+    salesTotal += float(thisSale)
 
-    elif oldStoreKey and oldItemKey and oldItemKey == thisItemKey:
-	salesTotalPerItem += float(thisSale)
-	#salesTotalPerStore += salesTotalPerItem
-	salesMaxAtMoment = salesTotalPerItem
-        itemMaxSalesPerStore = thisItemKey 
-
-
-
-    if oldStoreKey == None and oldItemKey == None:
-    	oldStoreKey = thisStoreKey
-        oldItemKey = thisItemKey
-	salesTotalPerItem = float(thisSale)
-	salesTotalPerStore = salesTotalPerItem
-	#if salesMaxAtMoment <= salesTotalPerItem:
-	salesMaxAtMoment = salesTotalPerItem
-	itemMaxSalesPerStore = thisItemKey
-
-
-if oldStoreKey != None and oldItemKey != None:
-    print oldStoreKey, "\t", oldItemKey, "\t", salesTotalPerItem
+if oldKey != None:
+    print oldKey, "\t", salesTotal
 
