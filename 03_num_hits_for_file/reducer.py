@@ -1,27 +1,35 @@
 #!/usr/bin/python
 
+from operator import itemgetter
 import sys
 
-numTotal = 0
-salesTotal = float(0)
-oldKey = None
+current_word = None
+current_count = 0
+word = None
 
 # Loop around the data
 # It will be in the format key\tval
-# Where key is the store name, val is the sale amount
-#
-# All the sales for a particular store will be presented,
-# then the key will change and we'll be dealing with the next store
-
 for line in sys.stdin:
     data_mapped = line.strip().split("\t")
     if len(data_mapped) != 2:
         # Something has gone wrong. Skip this line.
         continue
 
-    thisKey, thisSale = data_mapped
-    salesTotal += float(thisSale)
-    numTotal += 1
+    word, count = data_mapped
 
-print numTotal, "\t", salesTotal
+    try:
+        count = int(count)
+    except ValueError:
+        continue
+   
+    if current_word == word:
+        current_count += count
+    else:
+        if current_word:
+            print "{0}\t{1}".format(current_word,current_count)
+        current_count = count
+        current_word = word
+
+if current_word:
+    print "{0}\t{1}".format(current_word,current_count)
 
