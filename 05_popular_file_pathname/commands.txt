@@ -1,0 +1,1 @@
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.0.0-cdh4.1.1.jar -mapper "python /home/training/MOOC_udacity_first_steps_hadoop/05_popular_file_pathname/mapper.py" -reducer "python /home/training/MOOC_udacity_first_steps_hadoop/05_popular_file_pathname/reducer.py" -input "accesslogsraw/access_log" -output "accesslogsraw/outputmostpopular"
